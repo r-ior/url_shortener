@@ -28,6 +28,8 @@
         "symfony/yaml": "4.3.*"
     },
     "require-dev": {
+        "friendsofsymfony/rest-bundle": "^2.5",
+        "nelmio/cors-bundle": "^1.5",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
