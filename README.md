@@ -1,0 +1,2 @@
+# URL Shortener
+This tool provides a short URL representation. You can share, see count usage and also create an account to access all URLs and their data. An application built with Angular 8 and Symfony 4.
