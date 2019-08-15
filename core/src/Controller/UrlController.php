@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 use App\Entity\Url;
 use App\Utils\UrlShortener;
-use App\Repository\URLRepository;
+use App\Repository\UrlRepository;
 
 class UrlController extends AbstractFOSRestController
 {
