@@ -1,1 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'styles/variables';
+
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.main {
+    min-height: calc(100vh - 56px);
+    background-color: $white;
+}

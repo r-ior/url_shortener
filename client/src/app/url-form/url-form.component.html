@@ -1,0 +1,36 @@
+<section class="jumbotron">
+    <div class="container form-section text-center">
+        <h2 class="form-section__title mb-4">Create your pretty url!</h2>
+        <form class="form-inline justify-content-center align-items-start mb-4" (ngSubmit)="onSubmit(f)" #f="ngForm">
+            <div class="group">
+                <input class="form-control mb-2 mr-sm-2" type="text" name="originalUrl" required placeholder="Place url"
+                    ngModel #originalUrl="ngModel">
+                <small class="form-text text-left text-danger"
+                    *ngIf="!originalUrl.valid && originalUrl.touched && originalUrl != '' || !f.valid && f.submitted">Please
+                    enter a valid url!</small>
+            </div>
+            <div class="group">
+                <input class="form-control mb-2 mr-sm-2" type="text" name="shortUrl" placeholder="Enter desired url"
+                    ngModel>
+                <small class="form-text text-muted text-left">Leave blank and we genarate it for you</small>
+            </div>
+            <button class="btn btn-primary mb-2 mr-sm-2" type="submit">Submit</button>
+        </form>
+    
+        <div class="container d-flex">
+            <div class="url-info p-3" *ngIf="urlInfo">
+                <div class="url-info__wrap d-flex justify-content-between rounded-sm">
+                    <div class="url-info__base">
+                        <span class="mr-2 align-middle">{{ urlInfo.date }}</span>
+                        <a class="align-middle text-truncate" style="max-width: 150px; display: inline-block"
+                            href="{{ urlInfo.originalUrl }}">{{ urlInfo.originalUrl }}</a>
+                    </div>
+                    <div class="url-info__short">
+                        <a class="mr-2" href="{{ urlInfo.shortUrl }}">{{ urlInfo.shortUrl }}</a>
+                        <button type="button" class="btn btn-secondary btn-sm mr-2">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

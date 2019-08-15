@@ -1,0 +1,17 @@
+@import '../../styles/variables';
+
+.header {
+    background-color: $blue;
+
+    .header__logo {
+        font-size: 26px;
+        font-family: 'Source Code Pro', monospace;
+        font-weight: 900;
+
+        .header__hightlight {
+            color: $red;
+            letter-spacing: -2.1px;
+        }
+    }
+
+}

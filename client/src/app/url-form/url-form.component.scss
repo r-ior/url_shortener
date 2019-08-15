@@ -1,0 +1,21 @@
+@import '../../styles/variables';
+
+.jumbotron {
+    background-color: $white;
+}
+
+.form-section {
+    .form-section__title {
+        color: $black;
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 400;
+    }
+
+    .form-section__error-text {
+        color: #dc3545;
+    }
+
+    input.ng-touched.ng-invalid {
+        border-color: #dc3545;
+    }
+}
