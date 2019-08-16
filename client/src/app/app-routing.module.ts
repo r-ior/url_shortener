@@ -5,12 +5,16 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { RedirectComponent } from './redirect/redirect.component';
 import { MainComponent } from './main/main.component';
+import { AccountGuard } from './account/account.guard';
+import { UserService } from './user/user.service';
+
 
 const routes: Routes = [
     {
         path: 'account',
         component: AccountComponent,
         data: { title: 'Account' },
+        canActivate: [AccountGuard]
     },
     {
         path: 'login',
@@ -34,6 +38,7 @@ const routes: Routes = [
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
+    providers: [AccountGuard, UserService]
 })
 export class AppRoutingModule { }

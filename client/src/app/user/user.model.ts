@@ -1,8 +1,8 @@
 export interface User {
     id?: number;
-    fullname: string;
+    fullname?: string;
     username: string;
-    email: string;
+    email?: string;
     password: string;
     authToken?: string;
 }
