@@ -27,16 +27,24 @@ class UrlController extends AbstractFOSRestController
      */
     public function getUrl($short, URLRepository $urls) 
     {
+        $entityManager = $this->getDoctrine()->getManager();
         $shortUrl = $urls->findOneBy(['shortUrl' => $short]);
-        
+
         if(!is_null($shortUrl)) {
+            $count = $shortUrl->getCount() + 1;
+            $shortUrl->setCount($count);    
+
             $data = array(
                 'id' => $shortUrl->getId(),
                 'user' => $shortUrl->getUser(),
                 'date' => $shortUrl->getDate(),
                 'originalUrl' => $shortUrl->getOriginalUrl(),
                 'shortUrl' => $shortUrl->getShortUrl(),
+                'count' => $count,
             );
+
+            $entityManager->persist($shortUrl);
+            $entityManager->flush();
 
             return new JsonResponse($data, 200);
         }
@@ -49,6 +57,8 @@ class UrlController extends AbstractFOSRestController
      */
     public function setUrl(Request $request, URLRepository $urls) 
     {
+        $entityManager = $this->getDoctrine()->getManager();
+        $url = new Url();
         $originalUrl = $request->request->get('originalUrl');
         $short = $request->request->get('shortUrl');
 
@@ -63,14 +73,13 @@ class UrlController extends AbstractFOSRestController
 
             if(!empty($shortUrls)) return new JsonResponse('Short url was taken. Please enter another one', 400);
         }
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $url = new Url();
+        
         $shortener = new UrlShortener($short);
 
         $short = $shortener->getShort();
         $url->setOriginalUrl($originalUrl); 
         $url->setShortUrl($short);
+        $url->setCount(0);
 
         $entityManager->persist($url);
         $entityManager->flush();
