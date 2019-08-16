@@ -1,15 +1,13 @@
 <header class="header">
-  <nav class="navbar navbar-expand-lg navbar-dark">
+  <nav class="navbar navbar-dark">
     <div class="container">
       <a class="navbar-brand header__logo" href="/">URL<span class="header__hightlight">Short</span>ener</a>
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav container-fluid">
-          <li class="nav-item dropdown ml-auto">
-            <a routerLink="/login" class="nav-link" *ngIf="!isAuthenticated()">Login</a>
-            <a routerLink="/account" class="nav-link" *ngIf="isAuthenticated()">Account</a>
-          </li>
-        </ul>
-      </div>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown ml-auto">
+          <a routerLink="/login" class="nav-link" *ngIf="!isAuthenticated()">Login</a>
+          <a routerLink="/account" class="nav-link" *ngIf="isAuthenticated()">Account</a>
+        </li>
+      </ul>
     </div>
   </nav>
 </header>

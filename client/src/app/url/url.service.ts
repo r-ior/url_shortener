@@ -19,6 +19,10 @@ export class UrlService {
         return this.http.post<Url>(`http://localhost:8000${this.urlEndpoint}`, urlParams, { responseType: 'json' });
     }
 
+    getShortUrlDataByUser(userId: number): Observable<any> {
+        return this.http.get<Url[]>(`http://localhost:8000${this.urlEndpoint}/${userId}`, { responseType: 'json' });
+    }
+
     handleError(error: HttpErrorResponse) {
         return throwError('Something bad happened; please try again later.');
     }

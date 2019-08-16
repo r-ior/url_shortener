@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use App\Entity\Url;
 use App\Utils\UrlShortener;
 use App\Repository\UrlRepository;
+use App\Repository\UserRepository;
 
 class UrlController extends AbstractFOSRestController
 {
@@ -23,7 +24,7 @@ class UrlController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/api/url/{short}", name="getUrl")
+     * @Rest\Get("/api/url/{short}", name="getUrl", requirements={"short"="^.{7}$"})
      */
     public function getUrl($short, URLRepository $urls) 
     {
@@ -53,14 +54,31 @@ class UrlController extends AbstractFOSRestController
     }
 
     /**
+     * @Rest\Get("/api/url/{user_id}", name="getUrlByUser", requirements={"user_id"="^\d+(?:-\d+)?$"})
+     */
+    public function getUrlByUser($user_id, URLRepository $urls) 
+    {
+        $shortUrls = $urls->findBy(['user' => $user_id]);
+
+        if(!empty($shortUrls)) {
+            $response = $this->serializer->serialize($shortUrls, 'json');
+
+            return new JsonResponse($response, 200);
+        }
+
+        return new JsonResponse('Provided user was not found', 404);
+    }
+
+    /**
      * @Rest\Post("/api/url", name="setUrl")
      */
-    public function setUrl(Request $request, URLRepository $urls) 
+    public function setUrl(Request $request, URLRepository $urls, UserRepository $users) 
     {
         $entityManager = $this->getDoctrine()->getManager();
         $url = new Url();
         $originalUrl = $request->request->get('originalUrl');
         $short = $request->request->get('shortUrl');
+        $user = $request->request->get('user');
 
         if(is_null($originalUrl) || empty($originalUrl)) {
             return new JsonResponse('Original url was not provided', 400);
@@ -75,11 +93,13 @@ class UrlController extends AbstractFOSRestController
         }
         
         $shortener = new UrlShortener($short);
+        $userData = $users->findOneBy(['id' => $user]);
 
         $short = $shortener->getShort();
         $url->setOriginalUrl($originalUrl); 
         $url->setShortUrl($short);
         $url->setCount(0);
+        $url->setUser($userData);
 
         $entityManager->persist($url);
         $entityManager->flush();

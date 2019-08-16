@@ -8,11 +8,16 @@
     .form-section__title {
         color: $black;
         font-family: 'Source Sans Pro', sans-serif;
-        font-weight: 400;
+        font-weight: 700;
     }
 
     .form-section__error-text {
         color: #dc3545;
+    }
+
+    .form-section__result {
+        background-color: $base;
+        font-size: 20px;
     }
 
     input.ng-touched.ng-invalid {
