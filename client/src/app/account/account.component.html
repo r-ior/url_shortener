@@ -1,1 +1,22 @@
-<p>account works!</p>
+<app-header></app-header>
+    <div class="container">
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-7">
+                    <div class="list-group" *ngIf="urls">
+                        <div class="list-group-item" *ngFor="let url of urls">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h4 class="mb-1"><a href="{{ url.shortUrl }}">{{ url.shortUrl }}</a></h4>
+                                <span class="text-muted">Used: <span class="badge badge-primary badge-pill">{{ url.count }}</span></span>
+                            </div>
+                            <h5 class="mb-1"><a href="{{ url.originalUrl }}">{{ url.originalUrl }}</a></h5>
+                            <!-- <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                            <small class="text-muted">Donec id elit non mi porta.</small> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5"></div>
+            </div>
+        </div>
+    </div>
+<app-footer></app-footer>

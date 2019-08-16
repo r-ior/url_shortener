@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     onSubmit(form: NgForm) {
         this.userService.getUserData(this.user).subscribe(res => {
             localStorage.setItem('authToken', res.authToken);
-
+            // localStorage.setItem('user', res.id);
             window.location.reload();
         })
     }

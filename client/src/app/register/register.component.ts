@@ -17,10 +17,7 @@ export class RegisterComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   onSubmit(form: NgForm) {
-    
-    this.userService.saveUserData(this.user).subscribe(res => {
-      console.log(this.user);
-    })
+    this.userService.saveUserData(this.user);
   }
 
   ngOnInit() {

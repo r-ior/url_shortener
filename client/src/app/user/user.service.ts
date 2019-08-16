@@ -20,7 +20,7 @@ export class UserService {
         return this.http.post<User>(`http://localhost:8000${this.userEndpoint}/auth`, userCredentials, { responseType: 'json' });
     }
 
-    getUserDataByToken(authToken: string): Observable<User> {
+    getUserDataByToken(authToken: string): Observable<any> {
         return this.http.get<User>(`http://localhost:8000${this.userEndpoint}/${authToken}`, { responseType: 'json' });
     }
 

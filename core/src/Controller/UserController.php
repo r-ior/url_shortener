@@ -81,7 +81,7 @@ class UserController extends AbstractFOSRestController
             return new JsonResponse('Credentials error', 401);
         }
 
-        return new JsonResponse(array('authToken' => $user->getAuthToken()), 200);
+        return new JsonResponse(array('id' => $user->getId(), 'authToken' => $user->getAuthToken()), 200);
     }
     
     /**
