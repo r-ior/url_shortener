@@ -7,11 +7,12 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+// use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserController extends AbstractFOSRestController
 {
@@ -23,7 +24,7 @@ class UserController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/api/register", name="userRegister")
+     * @Rest\Post("/api/user/register", name="userRegister")
      */
     public function userRegistration(Request $request, UserPasswordEncoderInterface $encoder, ValidatorInterface $validator)
     {
@@ -59,7 +60,7 @@ class UserController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/api/auth", name="userAuth")
+     * @Rest\Post("/api/user/auth", name="userAuth")
      */
     public function userAuth(Request $request, UserRepository $users, UserPasswordEncoderInterface $encoder)
     {
@@ -81,5 +82,25 @@ class UserController extends AbstractFOSRestController
         }
 
         return new JsonResponse(array('authToken' => $user->getAuthToken()), 200);
-    } 
+    }
+    
+    /**
+     * @Rest\Get("/api/user/{authToken}", name="userData")
+     */
+    public function userData($authToken, UserRepository $users)
+    {
+        if(empty($authToken)) {
+            return new JsonResponse('Unauthorized', 401);
+        }
+
+        $user = $users->findOneBy(['authToken' => $authToken]);
+
+        if(!is_null($user)) {
+            $user = $this->serializer->serialize($user, 'json');
+
+            return new JsonResponse($user, 200);
+        }
+
+        return new JsonResponse('User not found', 404);
+    }
 }
