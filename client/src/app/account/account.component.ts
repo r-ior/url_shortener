@@ -3,6 +3,7 @@ import { AccountGuard } from './account.guard';
 import { UserService } from '../user/user.service';
 import { UrlService } from '../url/url.service';
 import { Url } from '../url/url.model';
+import { User } from '../user/user.model';
 
 @Component({
   selector: 'app-account',
@@ -12,27 +13,25 @@ import { Url } from '../url/url.model';
 })
 export class AccountComponent implements OnInit {
   urls: Url[];
-  userId: number;
+  user: User;
 
   constructor(private urlService: UrlService, private userService: UserService) { }
 
   ngOnInit() {
     this.getData();
-    // this.getUrls();
   }
 
-  
   getData() {
     let token = localStorage.getItem('authToken') ? localStorage.getItem('authToken') : null;
     this.userService.getUserDataByToken(token).subscribe(userData => {
-      this.userId = JSON.parse(userData).id;
+      this.user = JSON.parse(userData);
       
       this.getUrls();
     });
   }
 
   getUrls() {
-    this.urlService.getShortUrlDataByUser(this.userId).subscribe(res => {
+    this.urlService.getShortUrlDataByUser(this.user.id).subscribe(res => {
       res = JSON.parse(res);
       for (let i = 0; i < res.length; i++) {
         res[i].shortUrl = `${window.location.origin}/${res[i].shortUrl}`;

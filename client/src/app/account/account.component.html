@@ -1,22 +1,35 @@
 <app-header></app-header>
-    <div class="container">
-        <div class="jumbotron">
-            <div class="row">
-                <div class="col-7">
-                    <div class="list-group" *ngIf="urls">
-                        <div class="list-group-item" *ngFor="let url of urls">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h4 class="mb-1"><a href="{{ url.shortUrl }}">{{ url.shortUrl }}</a></h4>
-                                <span class="text-muted">Used: <span class="badge badge-primary badge-pill">{{ url.count }}</span></span>
+    <div class="container-fluid">
+        <div class="row align-items-center page account">
+            <div class="col">
+                <div class="container">
+                    <div class="jumbotron">
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-4 order-lg-2 mb-3 mb-lg-0">
+                                <div class="text-left border rounded-sm p-3">
+                                    <h3 class="account__greeting">Hello, <strong>{{ user.username }}</strong>!</h3>
+                                    <span class="d-block mb-2"><fa-icon [classes]="['mr-1']" [icon]="['far', 'address-card']"></fa-icon>Full name: {{ user.fullname }}</span>
+                                    <span class="d-block"><fa-icon [classes]="['mr-1']" [icon]="['far', 'envelope']"></fa-icon>E-mail: {{ user.email }}</span>
+                                </div>
                             </div>
-                            <h5 class="mb-1"><a href="{{ url.originalUrl }}">{{ url.originalUrl }}</a></h5>
-                            <!-- <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                            <small class="text-muted">Donec id elit non mi porta.</small> -->
+                            <div class="col-sm-12 col-lg-8 order-lg-1">
+                                <div class="list-group" *ngIf="urls">
+                                    <div class="list-group-item row" *ngFor="let url of urls">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-3 account__short-url">Short url: <a href="{{ url.shortUrl }}">{{ url.shortUrl }}</a></h5>
+                                            <span class="text-muted account__used">Used: <span class="badge badge-primary badge-pill">{{ url.count }}</span></span>
+                                        </div>
+                                        <span class="d-block mb-2 text-truncate account__original-url">Original url: <a href="{{ url.originalUrl }}">{{ url.originalUrl }}</a></span>
+                                        <span class="d-block py-2 border-top account__date">Date created: {{ url.date | date }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
-                <div class="col-5"></div>
             </div>
         </div>
     </div>
+    
 <app-footer></app-footer>

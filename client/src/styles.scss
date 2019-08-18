@@ -1,11 +1,15 @@
 @import 'styles/variables';
 
+body, html {
+    height: 100%;
+}
+
 body {
     font-family: 'Source Sans Pro', sans-serif;
 }
 
-.main {
-    min-height: calc(100vh - 56px);
+.page {
+    min-height: calc(100vh - 121px);
     background-color: $white;
 }
 
