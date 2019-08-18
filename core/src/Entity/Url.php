@@ -17,7 +17,7 @@ class Url
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;

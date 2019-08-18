@@ -11,8 +11,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 // use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Entity\Users;
+use App\Repository\UsersRepository;
 
 class UserController extends AbstractFOSRestController
 {
@@ -29,7 +29,7 @@ class UserController extends AbstractFOSRestController
     public function userRegistration(Request $request, UserPasswordEncoderInterface $encoder, ValidatorInterface $validator)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $user = new User();
+        $user = new Users();
 
         $fullname = $request->request->get('fullname');
         $username = $request->request->get('username'); 
@@ -62,7 +62,7 @@ class UserController extends AbstractFOSRestController
     /**
      * @Rest\Post("/api/user/auth", name="userAuth")
      */
-    public function userAuth(Request $request, UserRepository $users, UserPasswordEncoderInterface $encoder)
+    public function userAuth(Request $request, UsersRepository $users, UserPasswordEncoderInterface $encoder)
     {
         if(!$request->request->has('username') || !$request->request->has('password')) {
             return new JsonResponse('Unauthorized', 401);
@@ -87,7 +87,7 @@ class UserController extends AbstractFOSRestController
     /**
      * @Rest\Get("/api/user/{authToken}", name="userData")
      */
-    public function userData($authToken, UserRepository $users)
+    public function userData($authToken, UsersRepository $users)
     {
         if(empty($authToken)) {
             return new JsonResponse('Unauthorized', 401);

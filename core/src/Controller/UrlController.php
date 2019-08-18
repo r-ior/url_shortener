@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use App\Entity\Url;
 use App\Utils\UrlShortener;
 use App\Repository\UrlRepository;
-use App\Repository\UserRepository;
+use App\Repository\UsersRepository;
 
 class UrlController extends AbstractFOSRestController
 {
@@ -73,7 +73,7 @@ class UrlController extends AbstractFOSRestController
     /**
      * @Rest\Post("/api/url", name="setUrl")
      */
-    public function setUrl(Request $request, UrlRepository $urls, UserRepository $users) 
+    public function setUrl(Request $request, UrlRepository $urls, UsersRepository $users) 
     {
         $entityManager = $this->getDoctrine()->getManager();
         $httpClient = HttpClient::create();

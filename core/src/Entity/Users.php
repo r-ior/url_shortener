@@ -7,9 +7,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
  */
-class User implements UserInterface
+class Users implements UserInterface
 {
     /**
      * @ORM\Id()
