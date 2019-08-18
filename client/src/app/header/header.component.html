@@ -1,12 +1,12 @@
 <header class="header">
-  <nav class="navbar navbar-dark">
+  <nav class="navbar navbar-expand-sm navbar-dark">
     <div class="container">
-      <a class="navbar-brand header__logo" href="/">URL<span class="header__hightlight">Short</span>ener</a>
+      <a class="navbar-brand header__logo" routerLink="">URL<span class="header__hightlight">Short</span>ener</a>
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown ml-auto">
-          <a routerLink="/login" class="nav-link" *ngIf="!isAuthenticated()">Login</a>
-          <a routerLink="/account" class="nav-link" *ngIf="isAuthenticated()">Account</a>
-        </li>
+        <a routerLink="/login" class="nav-link" routerLinkActive="active" *ngIf="!isAuthenticated()">Login</a>
+        <a routerLink="/register" class="nav-link mr-lg-4" routerLinkActive="active" *ngIf="!isAuthenticated()">Register</a>
+        <a routerLink="/account" class="nav-link mr-lg-4" routerLinkActive="active" *ngIf="isAuthenticated()"><fa-icon [classes]="['mr-1']" [icon]="['far', 'user-circle']"></fa-icon>Account</a>
+        <a href="#" class="nav-link" *ngIf="isAuthenticated()" (click)="logOut($event)">Logout</a>
       </ul>
     </div>
   </nav>
