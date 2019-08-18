@@ -1,36 +1,72 @@
 <section class="jumbotron form-section">
-    <div class="container text-center">
-        <h2 class="form-section__title mb-4">Create your pretty url</h2>
-        <form class="row justify-content-center align-items-start" (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div class="container">
+        <h2 class="form-section__title text-md-center">Create your pretty url</h2>
+        <p class="text-md-center mb-4">Simply paste your long url to field below and enjoy your new, nice url!</p>
+        <form class="row justify-content-center align-items-start" (ngSubmit)="f.form.valid && onSubmit(f)" #f="ngForm" novalidate>
             <div class="form-group col-lg-7">
-                <input class="form-control form-control-lg mb-1" type="text" name="originalUrl" required placeholder="Paste your url"
-                    ngModel #originalUrl="ngModel">
-                <small class="form-text text-left text-danger"
-                    *ngIf="!originalUrl.valid && originalUrl.touched && originalUrl != '' || !f.valid && f.submitted">Please
-                    enter a valid url!</small>
+                <input 
+                    class="form-control form-control-lg mb-1" 
+                    type="text" 
+                    name="originalUrl" 
+                    placeholder="Paste your original url"
+                    [ngModel]="urlData?.originalUrl"
+                    (ngModelChange)="urlData.originalUrl = $event" 
+                    #originalUrl="ngModel"
+                    [ngClass]="{ 'is-error': f.submitted && originalUrl.invalid }"
+                    required>
+                <div *ngIf="f.submitted && originalUrl.invalid">
+                    <small 
+                        class="form-text text-left text-danger"
+                        *ngIf="originalUrl.errors.required">
+                        Original url is required
+                    </small>
+                    <small 
+                        class="form-text text-left text-danger"
+                        *ngIf="originalUrl.errors.invalid">
+                        Original url must be a valid url address
+                    </small>
+                </div>
+
             </div>
             <div class="form-group col-lg-3">
                 <div class="input-group mb-1">
                     <div class="input-group-prepend">
                         <div class="input-group-text">/</div>
                     </div>
-                    <input class="form-control form-control-lg" type="text" name="shortUrl" placeholder="Enter desired url" ngModel>
+                    <input 
+                        class="form-control form-control-lg" 
+                        type="text" 
+                        name="shortUrl" 
+                        placeholder="Enter desired path" 
+                        [ngModel]="urlData?.shortUrl"
+                        (ngModelChange)="urlData.shortUrl = $event" 
+                        #shortUrl="ngModel"
+                        [ngClass]="{ 'is-error': f.submitted && shortUrl.invalid }"
+                        pattern="^[a-zA-Z0-9]{7}$">
+                    <div *ngIf="shortUrl.invalid">
+                        <small 
+                            class="form-text text-left text-danger"
+                            *ngIf="shortUrl.errors.pattern">
+                            Short path must be 7 characters length, contain latin characters and digits
+                        </small>
+                    </div>
                 </div>
-                <small class="form-text text-muted text-left">Leave blank and we genarate it for you</small>
+                <small class="form-text text-muted text-left" *ngIf="!shortUrl.touched && !shortUrl.dirty">Leave blank and we genarate it for you</small>
             </div>
             <div class="form-group col-lg-auto">
-                <button class="btn btn-primary btn-lg mb-1" type="submit">Shorten</button>
+                <button class="btn btn-primary btn-lg mb-1" type="submit" (click)="formLoading(f)">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="btnText == 'Loading' && f.form.valid"></span>
+                    {{ btnText }}</button>
             </div>
         </form>
         
         <div *ngIf="urlInfo">
-            <div class="row justify-content-between align-items-center p-4 form-section__result">
+            <div class="row justify-content-between align-items-center p-4 overflow-hidden form-section__result">
                 <div class="col-md-6 text-truncate text-left"><a class="" href="{{ urlInfo.originalUrl }}">{{ urlInfo.originalUrl }}</a></div>
                 <div class="col-md-5 text-right">
-                    <a class="mr-5" href="{{ urlInfo.shortUrl }}">{{ urlInfo.shortUrl }}</a>
-                    <button type="button" class="btn btn-secondary">Copy</button>
+                    <a class="mr-5" href="{{ urlInfo.shortUrl }}" #createdUrl>{{ urlInfo.shortUrl }}</a>
+                    <button type="button" class="btn btn-secondary" (click)="copyToClipboard(createdUrl)">Copy</button>
                 </div>
-                
             </div>
         </div>
           

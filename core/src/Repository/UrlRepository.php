@@ -19,6 +19,22 @@ class UrlRepository extends ServiceEntityRepository
         parent::__construct($registry, Url::class);
     }
 
+    /**
+     * 
+     * @return Url[]
+     */
+
+    public function findOldRecords(\DateTime $date)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.date < :date')
+            ->setParameter('date', $date)
+            ->orderBy('u.date', 'DESC')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getResult();
+    }
+
     // /**
     //  * @return Url[] Returns an array of Url objects
     //  */

@@ -23,6 +23,14 @@ export class UrlService {
         return this.http.get<Url[]>(`http://localhost:8000${this.urlEndpoint}/${userId}`, { responseType: 'json' });
     }
 
+    copyToClipboard(element) {
+        let range = document.createRange();
+        range.selectNodeContents(element);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand("copy");
+    }
+
     handleError(error: HttpErrorResponse) {
         return throwError('Something bad happened; please try again later.');
     }
