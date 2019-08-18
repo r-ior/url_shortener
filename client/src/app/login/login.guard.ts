@@ -10,6 +10,9 @@ export class LoginGuard implements CanActivate {
 
     canActivate(): Observable<boolean> {
         let authToken = localStorage.getItem('authToken');
+
+        if(authToken == null) return of(true);
+
         return this.userService.getUserDataByToken(authToken)
             .pipe(
                 map(resp => { 
