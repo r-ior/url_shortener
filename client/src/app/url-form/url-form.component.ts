@@ -13,12 +13,13 @@ import { UserService } from '../user/user.service';
 })
 export class UrlFormComponent implements OnInit {
     public urlInfo: Url;
-    private urlData: Url = { user: null, originalUrl: '', shortUrl: '' }
-    private userId: number;
-    btnText: string = 'Shorten';
+    public urlData: Url = { user: null, originalUrl: '', shortUrl: '' }
+    public userId: number;
+    public origin = window.location.origin;
+    public errorText: string = '';
+    public btnText: string = 'Shorten';
 
     constructor(private urlService: UrlService, private userService: UserService) { }
-    public origin = window.location.origin;
 
     onSubmit(form: NgForm) {
         this.setUserId();
@@ -28,9 +29,16 @@ export class UrlFormComponent implements OnInit {
             data.shortUrl = `${this.origin}/${data.shortUrl}`;
             this.urlInfo = data;
             this.btnText = 'Shorten';
+            this.errorText = '';
         }, errorData => {
             this.btnText = 'Shorten';
-            form.controls['originalUrl'].setErrors({ 'invalid': true });
+            if(errorData.error.code == 'bad_short_url') {
+                form.controls['shortUrl'].setErrors({ 'invalid': true });
+                this.errorText = errorData.error.message;
+            } else {
+                form.controls['originalUrl'].setErrors({ 'invalid': true });
+            }
+            
             return errorData.error.code;
         });
 
@@ -50,7 +58,6 @@ export class UrlFormComponent implements OnInit {
     }
 
     formLoading(form: NgForm) {
-        console.log(form);
         if(form.form.valid) {
             this.btnText = 'Loading';
         }

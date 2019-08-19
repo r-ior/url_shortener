@@ -13,6 +13,7 @@ use App\Entity\Url;
 use App\Utils\UrlShortener;
 use App\Repository\UrlRepository;
 use App\Repository\UsersRepository;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class UrlController extends AbstractFOSRestController
 {
@@ -89,7 +90,7 @@ class UrlController extends AbstractFOSRestController
         }
 
         if($originalUrlResponse->getStatusCode() != 200) {
-            return new JsonResponse('Original url is not valid', 500);
+            return new JsonResponse(array('code' => 'not_valid_url', 'message' => 'Original url is not valid'), 400);
         }
 
         if(is_null($short)) {

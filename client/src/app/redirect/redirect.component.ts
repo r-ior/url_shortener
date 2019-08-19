@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { UrlService } from '../url/url.service';
 
@@ -11,14 +11,16 @@ import { UrlService } from '../url/url.service';
 })
 export class RedirectComponent implements OnInit {
 
-  constructor( private route: ActivatedRoute,  private urlSerivce: UrlService ) { }
+  constructor( private route: ActivatedRoute,  private urlSerivce: UrlService, private router: Router ) { }
 
   ngOnInit() {
     let short = this.route.snapshot.params['short']; 
 
     this.urlSerivce.getShortUrlData(short).subscribe(res => {
       window.location.href = res.originalUrl;
-    })
+    }, error => {
+      this.router.navigate(['']);
+    });
   }
 
 }

@@ -4,23 +4,24 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 
 import { Url } from './url.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class UrlService {
-    public urlEndpoint = '/api/url';
+    public urlEndpoint = 'api/url';
 
     constructor(private http: HttpClient) {}
 
     getShortUrlData(short: string): Observable<Url> {
-        return this.http.get<Url>(`http://localhost:8000${this.urlEndpoint}/${short}`, { responseType: 'json' });
+        return this.http.get<Url>(`${environment.apiUrl}${this.urlEndpoint}/${short}`, { responseType: 'json' });
     }
 
     saveShortUrlData(urlParams: Url): Observable<any> {
-        return this.http.post<Url>(`http://localhost:8000${this.urlEndpoint}`, urlParams, { responseType: 'json' });
+        return this.http.post<Url>(`${environment.apiUrl}${this.urlEndpoint}`, urlParams, { responseType: 'json' });
     }
 
     getShortUrlDataByUser(userId: number): Observable<any> {
-        return this.http.get<Url[]>(`http://localhost:8000${this.urlEndpoint}/${userId}`, { responseType: 'json' });
+        return this.http.get<Url[]>(`${environment.apiUrl}${this.urlEndpoint}/${userId}`, { responseType: 'json' });
     }
 
     copyToClipboard(element) {

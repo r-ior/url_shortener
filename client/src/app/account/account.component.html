@@ -23,6 +23,7 @@
                                         <span class="d-block py-2 border-top account__date">Date created: {{ url.date | date }}</span>
                                     </div>
                                 </div>
+                                <h3 *ngIf="!urls">You haven't short any urls yet. <a routerLink="">Go ahead!</a></h3>
                             </div>
                             
                         </div>

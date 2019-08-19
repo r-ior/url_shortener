@@ -5,23 +5,24 @@ import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { User } from './user.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class UserService {
-    public userEndpoint = '/api/user';
+    public userEndpoint = 'api/user';
 
     constructor(private http: HttpClient, protected router: Router) {}
 
     saveUserData(userParams: User): Observable<any> {
-        return this.http.post<User>(`http://localhost:8000${this.userEndpoint}/register`, userParams, { responseType: 'json' });
+        return this.http.post<User>(`${environment.apiUrl}${this.userEndpoint}/register`, userParams, { responseType: 'json' });
     }
 
     getUserData(userCredentials: User): Observable<any> {
-        return this.http.post<User>(`http://localhost:8000${this.userEndpoint}/auth`, userCredentials, { responseType: 'json' });
+        return this.http.post<User>(`${environment.apiUrl}${this.userEndpoint}/auth`, userCredentials, { responseType: 'json' });
     }
 
     getUserDataByToken(authToken: string): Observable<any> {
-        return this.http.get<User>(`http://localhost:8000${this.userEndpoint}/${authToken}`, { responseType: 'json' });
+        return this.http.get<User>(`${environment.apiUrl}${this.userEndpoint}/${authToken}`, { responseType: 'json' });
     }
 
     isAuthenticated() {

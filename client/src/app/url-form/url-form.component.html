@@ -39,7 +39,7 @@
                         name="shortUrl" 
                         placeholder="Enter desired path" 
                         [ngModel]="urlData?.shortUrl"
-                        (ngModelChange)="urlData.shortUrl = $event" 
+                        (ngModelChange)="urlData.shortUrl = $event; errorText = '';" 
                         #shortUrl="ngModel"
                         [ngClass]="{ 'is-error': f.submitted && shortUrl.invalid }"
                         pattern="^[a-zA-Z0-9]{7}$">
@@ -48,6 +48,12 @@
                             class="form-text text-left text-danger"
                             *ngIf="shortUrl.errors.pattern">
                             Short path must be 7 characters length, contain latin characters and digits
+                        </small>
+                    </div>
+                    <div *ngIf="f.submitted && errorText != ''">
+                        <small 
+                            class="form-text text-left text-danger">
+                            {{ errorText }}
                         </small>
                     </div>
                 </div>

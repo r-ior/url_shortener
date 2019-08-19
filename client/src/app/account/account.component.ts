@@ -14,6 +14,7 @@ import { User } from '../user/user.model';
 export class AccountComponent implements OnInit {
   urls: Url[];
   user: User;
+  public origin = window.location.origin;
 
   constructor(private urlService: UrlService, private userService: UserService) { }
 
@@ -34,7 +35,7 @@ export class AccountComponent implements OnInit {
     this.urlService.getShortUrlDataByUser(this.user.id).subscribe(res => {
       res = JSON.parse(res);
       for (let i = 0; i < res.length; i++) {
-        res[i].shortUrl = `${window.location.origin}/${res[i].shortUrl}`;
+        res[i].shortUrl = `${origin}/${res[i].shortUrl}`;
       }
 
       this.urls = res;

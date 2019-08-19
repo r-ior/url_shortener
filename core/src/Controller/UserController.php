@@ -74,7 +74,7 @@ class UserController extends AbstractFOSRestController
         $user = $users->findOneBy(['username' => $username]);
 
         if(empty($user)) {
-            return new JsonResponse('User not found', 404);
+            return new JsonResponse(array('code' => 'bad_username', 'message' => 'Username is not registered'), 404);
         }
 
         if(!$encoder->isPasswordValid($user, $password)) {
